@@ -44,19 +44,19 @@ public class Application implements CommandLineRunner {
     private Publisher publisher;
     
     @Bean
-    Integer numberOfJokes() {
+    Integer numberOfQuotes() {
         return 10;
     }
     
     @Bean
-    public CountDownLatch latch(Integer numberOfJokes) {
-        return new CountDownLatch(numberOfJokes);
+    public CountDownLatch latch(Integer numberOfQuotes) {
+        return new CountDownLatch(numberOfQuotes);
     }
     
     @Override
     public void run(String... args) throws Exception {        
-        reactor.on($("jokes"), receiver);
-        publisher.publishJokes();
+        reactor.on($("quotes"), receiver);
+        publisher.publishQuotes();
     }
     
     public static void main(String[] args) throws InterruptedException {

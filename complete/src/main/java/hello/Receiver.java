@@ -18,8 +18,8 @@ class Receiver implements Consumer<Event<Integer>> {
     RestTemplate restTemplate = new RestTemplate();
 
     public void accept(Event<Integer> ev) {
-        JokeResource jokeResource = restTemplate.getForObject("http://api.icndb.com/jokes/random", JokeResource.class);
-        System.out.println("Joke " + ev.getData() + ": " + jokeResource.getValue().getJoke());
+		QuoteResource quoteResource = restTemplate.getForObject("http://gturnquist-quoters.cfapps.io/api/random", QuoteResource.class);
+        System.out.println("Quote " + ev.getData() + ": " + quoteResource.getValue().getQuote());
         latch.countDown();
     }
 

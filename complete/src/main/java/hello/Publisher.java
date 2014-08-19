@@ -19,15 +19,15 @@ public class Publisher {
     CountDownLatch latch;
     
     @Autowired
-    Integer numberOfJokes;
+    Integer numberOfQuotes;
     
-    public void publishJokes() throws InterruptedException {
+    public void publishQuotes() throws InterruptedException {
         long start = System.currentTimeMillis();
         
         AtomicInteger counter = new AtomicInteger(1);
         
-        for (int i=0; i < numberOfJokes; i++) {
-            reactor.notify("jokes", Event.wrap(counter.getAndIncrement()));
+        for (int i=0; i < numberOfQuotes; i++) {
+            reactor.notify("quotes", Event.wrap(counter.getAndIncrement()));
         }
 
         latch.await();
@@ -35,7 +35,7 @@ public class Publisher {
         long elapsed = System.currentTimeMillis()-start;
         
         System.out.println("Elapsed time: " + elapsed + "ms");
-        System.out.println("Average time per joke: " + elapsed/numberOfJokes + "ms");
+        System.out.println("Average time per quote: " + elapsed/ numberOfQuotes + "ms");
     }
 
 }

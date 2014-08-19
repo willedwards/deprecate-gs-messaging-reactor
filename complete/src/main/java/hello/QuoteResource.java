@@ -1,9 +1,9 @@
 package hello;
 
-public class JokeResource {
+public class QuoteResource {
 
     String type;
-    Joke value;
+    Quote value;
 
     public String getType() {
         return type;
@@ -11,10 +11,10 @@ public class JokeResource {
     public void setType(String type) {
         this.type = type;
     }
-    public Joke getValue() {
+    public Quote getValue() {
         return value;
     }
-    public void setValue(Joke value) {
+    public void setValue(Quote value) {
         this.value = value;
     }
 
