@@ -1,9 +1,5 @@
 package hello;
 
-import static reactor.event.selector.Selectors.$;
-
-import java.util.concurrent.CountDownLatch;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -11,15 +7,20 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-
 import reactor.core.Environment;
 import reactor.core.Reactor;
 import reactor.core.spec.Reactors;
+
+import java.util.concurrent.CountDownLatch;
+
+import static reactor.event.selector.Selectors.$;
 
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
 public class Application implements CommandLineRunner {
+
+    private static final int NUMBER_OF_QUOTES = 10;
 
     @Bean
     Environment env() {
@@ -44,19 +45,14 @@ public class Application implements CommandLineRunner {
     private Publisher publisher;
     
     @Bean
-    Integer numberOfQuotes() {
-        return 10;
-    }
-    
-    @Bean
-    public CountDownLatch latch(Integer numberOfQuotes) {
-        return new CountDownLatch(numberOfQuotes);
+    public CountDownLatch latch() {
+        return new CountDownLatch(NUMBER_OF_QUOTES);
     }
     
     @Override
     public void run(String... args) throws Exception {        
         reactor.on($("quotes"), receiver);
-        publisher.publishQuotes();
+        publisher.publishQuotes(NUMBER_OF_QUOTES);
     }
     
     public static void main(String[] args) throws InterruptedException {

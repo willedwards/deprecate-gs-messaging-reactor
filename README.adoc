@@ -122,7 +122,7 @@ Reactor has four dispatchers to pick from: **synchronous**, **ring buffer**, **t
 - **Event loop** is used when you need all events on the exact same thread.
 ====
 
-It also defines the number of events to send in the `numberOfQuotes()` method and creates a `CountDownLatch` with the `latch()` method. 
+It also defines the number of events to send at the top with `NUMBER_OF_QUOTES` and creates a `CountDownLatch` with the `latch()` method. 
 
 The `Application` class is tagged with the `@Configuration` and `@ComponentScan` annotations. This lets it define the application context while also scanning the `hello` package for the `@Service` objects.
 

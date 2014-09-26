@@ -1,13 +1,12 @@
 package hello;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import reactor.core.Reactor;
 import reactor.event.Event;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class Publisher {
@@ -18,10 +17,7 @@ public class Publisher {
     @Autowired
     CountDownLatch latch;
     
-    @Autowired
-    Integer numberOfQuotes;
-    
-    public void publishQuotes() throws InterruptedException {
+    public void publishQuotes(int numberOfQuotes) throws InterruptedException {
         long start = System.currentTimeMillis();
         
         AtomicInteger counter = new AtomicInteger(1);
