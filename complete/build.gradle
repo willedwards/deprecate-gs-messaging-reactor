@@ -1,6 +1,6 @@
 buildscript {
   repositories {
-    maven { url "https://repo.spring.io/libs-snapshot" }
+    mavenCentral()
   }
   dependencies {
     classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.3.RELEASE")
@@ -19,7 +19,6 @@ jar {
 
 repositories {
   mavenCentral()
-  maven { url "https://repo.spring.io/libs-snapshot" }
 }
 
 dependencies {
