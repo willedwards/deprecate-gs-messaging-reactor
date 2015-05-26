@@ -4,16 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import reactor.core.Environment;
-import reactor.core.Reactor;
-import reactor.core.spec.Reactors;
+import reactor.Environment;
+import reactor.bus.EventBus;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
-import static reactor.event.selector.Selectors.$;
+import static reactor.bus.selector.Selectors.$;
 
 @Configuration
 @EnableAutoConfiguration
@@ -24,39 +25,41 @@ public class Application implements CommandLineRunner {
 
     @Bean
     Environment env() {
-        return new Environment();
+        return Environment.initializeIfEmpty()
+                          .assignErrorJournal();
     }
     
     @Bean
-    Reactor createReactor(Environment env) {
-        return Reactors.reactor()
-                .env(env)
-                .dispatcher(Environment.THREAD_POOL)
-                .get();
+    EventBus createEventBus(Environment env) {
+	    return EventBus.create(env, Environment.THREAD_POOL);
     }
-    
-    @Autowired
-    private Reactor reactor;
-    
-    @Autowired
-    private Receiver receiver;
-    
-    @Autowired
-    private Publisher publisher;
-    
-    @Bean
-    public CountDownLatch latch() {
-        return new CountDownLatch(NUMBER_OF_QUOTES);
-    }
-    
-    @Override
-    public void run(String... args) throws Exception {        
-        reactor.on($("quotes"), receiver);
-        publisher.publishQuotes(NUMBER_OF_QUOTES);
-    }
-    
-    public static void main(String[] args) throws InterruptedException {
-        SpringApplication.run(Application.class, args);
-    }
+
+	@Autowired
+	private EventBus eventBus;
+
+	@Autowired
+	private Receiver receiver;
+
+	@Autowired
+	private Publisher publisher;
+
+	@Bean
+	public CountDownLatch latch() {
+		return new CountDownLatch(NUMBER_OF_QUOTES);
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+		eventBus.on($("quotes"), receiver);
+		publisher.publishQuotes(NUMBER_OF_QUOTES);
+	}
+
+	public static void main(String[] args) throws InterruptedException {
+		ApplicationContext app = SpringApplication.run(Application.class, args);
+
+		app.getBean(CountDownLatch.class).await(1, TimeUnit.SECONDS);
+
+		app.getBean(Environment.class).shutdown();
+	}
 
 }
