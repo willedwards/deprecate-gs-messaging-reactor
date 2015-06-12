@@ -16,6 +16,7 @@ You'll build an application that fires off events to fetch a random Spring Boot 
 
 == What you'll need
 
+:java_version: 1.8
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
 
 
