@@ -159,3 +159,6 @@ The events were dispatched in order, one through ten. But the output shows that 
 == Summary
 Congratulations! You've just developed an asynchronous, message-driven system using the Reactor project. This is just the beginning of what you can build with it.
 
+
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
+
