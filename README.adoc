@@ -64,7 +64,7 @@ The wrapper class looks like this:
 include::complete/src/main/java/hello/QuoteResource.java[]
 ----
     
-The wrapper class has the `type` attribute along with a `Quote`. This makes it easy later to use Spring's `RestTemplate` and convert JSON to a POJO with the Jackson binding library.
+The wrapper class has the `type` attribute along with a `Quote`. This makes it easy later to use Spring's `RestTemplate` and convert JSON to a link:/understanding/POJO[POJO] with the Jackson binding library.
 
 == Create a receiver
 
