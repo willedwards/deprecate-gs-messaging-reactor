@@ -1,22 +1,23 @@
 package hello;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import reactor.bus.Event;
 import reactor.bus.EventBus;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Service
-public class Publisher {
+public class Publisher implements IPublisher {
 
-	@Autowired
-	EventBus eventBus;
 
-	@Autowired
-	CountDownLatch latch;
+	private final EventBus eventBus;
+	private final CountDownLatch latch;
 
+	public Publisher(EventBus eventBus, CountDownLatch latch) {
+		this.eventBus = eventBus;
+		this.latch = latch;
+	}
+
+	@Override
 	public void publishQuotes(int numberOfQuotes) throws InterruptedException {
 		long start = System.currentTimeMillis();
 
